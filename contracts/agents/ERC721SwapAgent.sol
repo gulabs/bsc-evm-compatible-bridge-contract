@@ -32,7 +32,6 @@ contract ERC721SwapAgent is Initializable, OwnableUpgradeable, ERC721HolderUpgra
         address indexed recipient,
         uint256 dstChainId,
         uint256 tokenId,
-        string  tokenURI,
         uint256 feeAmount
     );
 
@@ -61,8 +60,7 @@ contract ERC721SwapAgent is Initializable, OwnableUpgradeable, ERC721HolderUpgra
         address indexed recipient,
         address mirroredTokenAddr,
         uint256 fromChainId,
-        uint256 tokenId,
-        string  tokenURI
+        uint256 tokenId
     );
 
     event BackwardSwapFilled(
@@ -139,11 +137,7 @@ contract ERC721SwapAgent is Initializable, OwnableUpgradeable, ERC721HolderUpgra
           token.safeTransferFrom(msg.sender, address(this), tokenId);
           require(token.ownerOf(tokenId) == address(this), "ERC721SwapAgent::swap:: wrong ownership after transferfing");
 
-          IERC721MetadataUpgradeable meta = IERC721MetadataUpgradeable(tokenAddr);
-          string memory tokenURI = meta.tokenURI(tokenId);
-          require(bytes(tokenURI).length > 0, "ERC721SwapAgent::swap:: token has no tokenURI");
-
-          emit SwapStarted(tokenAddr, msg.sender, recipient, dstChainId, tokenId, tokenURI, msg.value);
+          emit SwapStarted(tokenAddr, msg.sender, recipient, dstChainId, tokenId, msg.value);
 
           return;
         }
@@ -181,6 +175,12 @@ contract ERC721SwapAgent is Initializable, OwnableUpgradeable, ERC721HolderUpgra
           mirroredToken.safeMint(recipient, tokenId);
           mirroredToken.setTokenURI(tokenId, tokenURI);
 
+          // if (bytes(baseURI).length > 0) {
+          //   mirroredToken.setBaseURI(tokenId, tokenURI);
+          // } else if (bytes(tokenURI).length > 0) {
+          //   mirroredToken.setTokenURI(tokenId, tokenURI);
+          // }
+
           require(
             mirroredToken.ownerOf(tokenId) == recipient,
             "ERC721SwapAgent::fill:: wrong ownership after minting"
@@ -192,8 +192,7 @@ contract ERC721SwapAgent is Initializable, OwnableUpgradeable, ERC721HolderUpgra
               recipient,
               mirroredTokenAddr,
               fromChainId,
-              tokenId,
-              tokenURI
+              tokenId
           );
 
           return;
