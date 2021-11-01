@@ -4,6 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "chain1": "cd chains/1000 && hardhat node --port 19545",
+    "chain2": "cd chains/2000 && hardhat node --port 19546",
+    "deploy:chain1:agent": "hardhat --network chain1 deploy --reset --tags ERC721SwapAgent",
+    "deploy:chain1:register": "DST_CHAIN_ID=2000 hardhat --network chain1 deploy --reset --tags MockERC721",
+    "deploy:chain1:forward": "DST_CHAIN_ID=2000 hardhat --network chain1 deploy --reset --tags ForwardSwapERC721",
+    "deploy:chain2:agent": "hardhat --network chain2 deploy --reset --tags ERC721SwapAgent",
+    "deploy:chain2:register": "DST_CHAIN_ID=1000 hardhat --network chain2 deploy --reset --tags MockERC721",
+    "deploy:chain2:forward": "DST_CHAIN_ID=1000 hardhat --network chain2 deploy --reset --tags ForwardSwapERC721",
+    "deploy:hardhat:ERC721SwapAgent": "hardhat --network localhost deploy --reset --tags ERC721SwapAgent",
+    "deploy:hardhat:MockERC721": "hardhat --network localhost deploy --reset --tags MockERC721",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +32,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.3.2",
     "@openzeppelin/contracts-upgradeable": "^4.3.2",
+    "@openzeppelin/hardhat-upgrades": "^1.11.0",
     "@typechain/ethers-v5": "^7.2.0",
     "@typechain/hardhat": "^2.3.1",
     "@types/chai": "^4.2.22",
@@ -41,6 +52,7 @@
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.5.1",
     "hardhat": "^2.6.7",
+    "hardhat-deploy": "^0.9.4",
     "hardhat-gas-reporter": "^1.0.4",
     "prettier": "^2.4.1",
     "prettier-plugin-solidity": "^1.0.0-beta.18",

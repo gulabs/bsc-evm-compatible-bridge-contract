@@ -10,9 +10,6 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721Burnab
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract MirroredERC721 is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable, PausableUpgradeable, OwnableUpgradeable, ERC721BurnableUpgradeable {
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
-
     function initialize(string calldata name, string calldata symbol) initializer public {
         __ERC721_init(name, symbol);
         __ERC721Enumerable_init();
@@ -32,6 +29,10 @@ contract MirroredERC721 is Initializable, ERC721Upgradeable, ERC721EnumerableUpg
 
     function safeMint(address to, uint256 tokenId) public onlyOwner {
         _safeMint(to, tokenId);
+    }
+
+    function setTokenURI(uint256 tokenId, string calldata _tokenURI) public onlyOwner {
+        _setTokenURI(tokenId, _tokenURI);
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
