@@ -10,6 +10,8 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721Burnab
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract MirroredERC721 is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable, PausableUpgradeable, OwnableUpgradeable, ERC721BurnableUpgradeable {
+    string public baseURI;
+
     function initialize(string calldata name, string calldata symbol) initializer public {
         __ERC721_init(name, symbol);
         __ERC721Enumerable_init();
@@ -31,7 +33,11 @@ contract MirroredERC721 is Initializable, ERC721Upgradeable, ERC721EnumerableUpg
         _safeMint(to, tokenId);
     }
 
-    function setTokenURI(uint256 tokenId, string calldata _tokenURI) public onlyOwner {
+    function setBaseURI(string memory baseURI_) external {
+        baseURI = baseURI_;
+    }
+
+    function setTokenURI(uint256 tokenId, string memory _tokenURI) public onlyOwner {
         _setTokenURI(tokenId, _tokenURI);
     }
 
@@ -50,6 +56,10 @@ contract MirroredERC721 is Initializable, ERC721Upgradeable, ERC721EnumerableUpg
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
     {
         super._burn(tokenId);
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return baseURI;
     }
 
     function tokenURI(uint256 tokenId)
