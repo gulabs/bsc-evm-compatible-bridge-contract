@@ -57,7 +57,7 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: true,
       loggingEnabled: true,
       mining: {
-        auto: false,
+        auto: true,
         interval: 10000
       },
       accounts: [{
