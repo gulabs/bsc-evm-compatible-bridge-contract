@@ -75,10 +75,6 @@ contract ERC721SwapAgent is Initializable, OwnableUpgradeable, ERC721HolderUpgra
         __Ownable_init();
     }
 
-    function getUniqueId() internal view returns (address) {
-        return address(bytes20(sha256(abi.encodePacked(msg.sender, abi.encode(block.timestamp)))));
-    }
-
     function createSwapPair(
         bytes32 registerTxHash,
         address fromTokenAddr,

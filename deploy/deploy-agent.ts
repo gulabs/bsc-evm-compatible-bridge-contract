@@ -6,7 +6,8 @@ import { ethers, upgrades } from "hardhat";
 import { ERC721SwapAgent, ERC721SwapAgent__factory } from "../typechain";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const ERC721SwapAgent = (await ethers.getContractFactory("ERC721SwapAgent", (await ethers.getSigners())[0])) as ERC721SwapAgent__factory
+  const signers = await ethers.getSigners();
+  const ERC721SwapAgent = (await ethers.getContractFactory("ERC721SwapAgent", signers[0])) as ERC721SwapAgent__factory
 
   console.log(`>> Deploying ERC721SwapAgent`);
 
