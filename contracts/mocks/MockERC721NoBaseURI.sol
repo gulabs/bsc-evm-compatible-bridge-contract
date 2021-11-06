@@ -5,9 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MockERC721 is ERC721, ERC721URIStorage, Ownable {
-    string public baseURI;
-
+contract MockERC721NoBaseURI is ERC721, ERC721URIStorage, Ownable {
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {}
 
     function setTokenURI(uint256 tokenId, string calldata _tokenURI) public onlyOwner {
@@ -18,18 +16,10 @@ contract MockERC721 is ERC721, ERC721URIStorage, Ownable {
         _safeMint(to, tokenId);
     }
 
-    function setBaseURI(string memory baseURI_) external {
-        baseURI = baseURI_;
-    }
-
     // The following functions are overrides required by Solidity.
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
-    }
-
-    function _baseURI() internal view override returns (string memory) {
-        return baseURI;
     }
 
     function tokenURI(uint256 tokenId)
