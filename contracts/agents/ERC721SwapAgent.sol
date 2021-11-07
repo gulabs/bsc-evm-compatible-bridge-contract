@@ -5,7 +5,6 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "hardhat/console.sol";
 import "../tokens/MirroredERC721.sol";
 import "../interfaces/IERC721Mirrored.sol";
 
@@ -172,11 +171,6 @@ contract ERC721SwapAgent is
         uint256 tokenId,
         uint256 dstChainId
     ) external payable {
-        console.log("[swap]: tokenAddr %s", tokenAddr);
-        console.log("[swap]: recipient %s", recipient);
-        console.log("[swap]: tokenId %s", tokenId);
-        console.log("[swap]: dstChainId %s", dstChainId);
-
         // try forward swap
         if (registeredToken[dstChainId][tokenAddr]) {
             IERC721 token = IERC721(tokenAddr);
@@ -235,16 +229,6 @@ contract ERC721SwapAgent is
         uint256 tokenId,
         string calldata tokenURI
     ) public onlyOwner {
-        console.log(
-            "[fill]: swapTxHash %s",
-            string(abi.encodePacked(swapTxHash))
-        );
-        console.log("[fill]: fromTokenAddr %s", fromTokenAddr);
-        console.log("[fill]: recipient %s", recipient);
-        console.log("[fill]: fromChainId %s", fromChainId);
-        console.log("[fill]: tokenId %s", tokenId);
-        console.log("[fill]: tokenURI %s", tokenURI);
-
         require(!filledSwap[swapTxHash], ERR721_FILL_ALREADY_FILLED);
         filledSwap[swapTxHash] = true;
 
@@ -254,12 +238,9 @@ contract ERC721SwapAgent is
             fromTokenAddr
         ];
         if (mirroredTokenAddr != address(0x0)) {
-            console.log("[fill]: fill forward swap");
             IERC721Mirrored mirroredToken = IERC721Mirrored(mirroredTokenAddr);
             mirroredToken.safeMint(recipient, tokenId);
-            console.log("[fill]: minted");
             mirroredToken.setTokenURI(tokenId, tokenURI);
-            console.log("[fill]: set token uri");
 
             require(
                 mirroredToken.ownerOf(tokenId) == recipient,
@@ -282,10 +263,8 @@ contract ERC721SwapAgent is
         // our server will find this token from the given mirrored token in the BackwardSwapStarted event
         // and assign the value to fromTokenAddr
         if (registeredToken[fromChainId][fromTokenAddr]) {
-            console.log("[fill]: fill backward swap");
             IERC721 token = IERC721(fromTokenAddr);
             token.safeTransferFrom(address(this), recipient, tokenId);
-            console.log("[fill]: transferred back to the owner");
 
             require(
                 token.ownerOf(tokenId) == recipient,
