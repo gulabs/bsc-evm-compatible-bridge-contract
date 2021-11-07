@@ -11,19 +11,6 @@ import 'hardhat-deploy';
 
 dotenv.config();
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
-
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.4",
@@ -35,20 +22,16 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    ropsten: {
-      url: process.env.ROPSTEN_URL || "",
+    rinkeby: {
+      chainId: 4,
+      url: process.env.RINKEBY_URL || "",
       accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+        process.env.RINKEBY_PRIVATE_KEY !== undefined ? [process.env.RINKEBY_PRIVATE_KEY] : [],
     },
-    chain1: {
-      chainId: 1000,
-      url: 'http://localhost:19545',
-      accounts: [process.env.LOCAL_PRIVATE_KEY_1 || '']
-    },
-    chain2: {
-      chainId: 2000,
-      url: 'http://localhost:19546',
-      accounts: [process.env.LOCAL_PRIVATE_KEY_1 || '']
+    bsctest: {
+      chainId: 97,
+      url: process.env.BSC_TEST_URL || "",
+      accounts: process.env.BSC_TEST_PRIVATE_KEY !== undefined ? [process.env.BSC_TEST_PRIVATE_KEY] : [],
     },
     hardhat: {
       chainId: 31337,
