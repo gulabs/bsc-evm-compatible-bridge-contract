@@ -21,24 +21,24 @@ contract ERC1155SwapAgent is
 
     // -- Error Constants --
     // ERC1155SwapAgent::registerSwapPair:: token does not conform ERC1155 standard 
-    string private constant _ERR1155_REGISTER_NOT_1155 = "SA.1155.1.1";
+    string private constant _ERR1155_REGISTER_NOT_1155 = "A1155.1155.1.1";
     // ERC1155SwapAgent::registerSwapPair:: token is already registered
-    string private constant _ERR1155_REGISTER_TOKEN_EXISTS = "SA.1155.1.2";
+    string private constant _ERR1155_REGISTER_TOKEN_EXISTS = "A1155.1155.1.2";
     // ERC1155SwapAgent::registerSwapPair:: empty token name
-    string private constant _ERR1155_REGISTER_EMPTY_TOKEN_NAME = "SA.1155.1.3";
+    string private constant _ERR1155_REGISTER_EMPTY_TOKEN_NAME = "A1155.1155.1.3";
     // ERC1155SwapAgent::registerSwapPair:: empty token symbol
-    string private constant _ERR1155_REGISTER_EMPTY_TOKEN_SYMBOL = "SA.1155.1.4";
+    string private constant _ERR1155_REGISTER_EMPTY_TOKEN_SYMBOL = "A1155.1155.1.4";
 
     // ERC1155SwapAgent::createSwapPair:: mirrored token is already deployed
-    string private constant _ERR1155_CREATE_MIRRORED_EXISTS = "SA.1155.2.1";
+    string private constant _ERR1155_CREATE_MIRRORED_EXISTS = "A1155.1155.2.1";
 
     // ERC1155SwapAgent::swap:: token has no swap pair
-    string private constant _ERR1155_SWAP_NO_PAIR = "SA.1155.3.1";
+    string private constant _ERR1155_SWAP_NO_PAIR = "A1155.1155.3.1";
 
     // ERC1155SwapAgent::fill:: tx hash was already filled
-    string private constant _ERR1155_FILL_ALREADY_FILLED = "SA.1155.4.1";
+    string private constant _ERR1155_FILL_ALREADY_FILLED = "A1155.1155.4.1";
     // ERC1155SwapAgent::fill:: token has no swap pair
-    string private constant _ERR1155_FILL_NO_PAIR = "SA.1155.4.2";
+    string private constant _ERR1155_FILL_NO_PAIR = "A1155.1155.4.2";
 
     // -- Storage Variables --
     mapping(uint256 => mapping(address => bool)) public registeredToken;

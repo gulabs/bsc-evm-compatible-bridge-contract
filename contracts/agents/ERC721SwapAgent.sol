@@ -21,24 +21,24 @@ contract ERC721SwapAgent is
 
     // -- Error Constants --
     // ERC721SwapAgent::registerSwapPair:: token does not conform ERC721 standard
-    string private constant _ERR721_REGISTER_NOT_721 = "SA.721.1.1";
+    string private constant _ERR721_REGISTER_NOT_721 = "A721.721.1.1";
     // ERC721SwapAgent::registerSwapPair:: token is already registered
-    string private constant _ERR721_REGISTER_TOKEN_EXISTS = "SA.721.1.2";
+    string private constant _ERR721_REGISTER_TOKEN_EXISTS = "A721.721.1.2";
     // ERC721SwapAgent::registerSwapPair:: empty token name
-    string private constant _ERR721_REGISTER_EMPTY_TOKEN_NAME = "SA.721.1.3";
+    string private constant _ERR721_REGISTER_EMPTY_TOKEN_NAME = "A721.721.1.3";
     // ERC721SwapAgent::registerSwapPair:: empty token symbol
-    string private constant _ERR721_REGISTER_EMPTY_TOKEN_SYMBOL = "SA.721.1.4";
+    string private constant _ERR721_REGISTER_EMPTY_TOKEN_SYMBOL = "A721.721.1.4";
 
     // ERC721SwapAgent::createSwapPair:: mirrored token is already deployed
-    string private constant _ERR721_CREATE_MIRRORED_EXISTS = "SA.721.2.1";
+    string private constant _ERR721_CREATE_MIRRORED_EXISTS = "A721.721.2.1";
 
     // ERC721SwapAgent::swap:: token has no swap pair
-    string private constant _ERR721_SWAP_NO_PAIR = "SA.721.3.1";
+    string private constant _ERR721_SWAP_NO_PAIR = "A721.721.3.1";
 
     // ERC721SwapAgent::fill:: tx hash was already filled
-    string private constant _ERR721_FILL_ALREADY_FILLED = "SA.721.4.1";
+    string private constant _ERR721_FILL_ALREADY_FILLED = "A721.721.4.1";
     // ERC721SwapAgent::fill:: token has no swap pair
-    string private constant _ERR721_FILL_NO_PAIR = "SA.721.4.2";
+    string private constant _ERR721_FILL_NO_PAIR = "A721.721.4.2";
 
     // -- Storage Variables --
     mapping(uint256 => mapping(address => bool)) public registeredToken;
