@@ -1,8 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { ethers } from "hardhat";
-import { approveMirroredERC721 } from './utils/token';
-import { get721Agent, get721MirroredToken } from './utils/cache';
+import { approveMirroredERC721 } from './utils/721-token';
+import { get721Agent, get721MirroredToken } from './utils/721-cache';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const chainId = hre.network.config.chainId?.toString() || '';

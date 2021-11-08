@@ -1,8 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { ethers } from "hardhat";
-import { mintMockERC721 } from './utils/token';
-import { get721MockToken, set721MockToken } from './utils/cache';
+import { mintMockERC721 } from './utils/721-token';
+import { get721MockToken, set721MockToken } from './utils/721-cache';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const signers = await ethers.getSigners();
@@ -10,7 +10,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const mockToken = get721MockToken(chainId);
 
   mockToken.tokenId = (mockToken.tokenId ? parseInt(mockToken.tokenId, 10) + 1 : 1).toString();
+
   let tokenUri = mockToken.baseUri + mockToken.tokenId;
+  if (mockToken.baseUri) {
+    tokenUri = mockToken.tokenId;
+  }
+
   await mintMockERC721({
     tokenId: mockToken.tokenId,
     tokenUri,

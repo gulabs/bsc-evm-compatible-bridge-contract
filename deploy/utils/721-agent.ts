@@ -39,13 +39,6 @@ type FillERC721Params = {
   signers: Awaited<ReturnType<typeof ethers.getSigners>>,
 }
 
-type GetMirroredToken = {
-  agentAddr: string,
-  blockNumber: number,
-  txHash: string,
-  signers: Awaited<ReturnType<typeof ethers.getSigners>>,
-}
-
 export const registerMockERC721 = async (params: RegisterMockERC721Params) => {
   if (!params.agentAddr) throw new Error("agentAddr is not defined");
   if (!params.dstChainId) throw new Error("dstChainId is not defined");

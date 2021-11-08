@@ -1,8 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { ethers } from "hardhat";
-import { deployMockERC721 } from './utils/deploy';
-import { get721Agent, set721MockToken } from './utils/cache';
+import { deployMockERC721 } from './utils/721-deploy';
+import { get721Agent, set721MockToken } from './utils/721-cache';
 
 const BASE_URI = 'https://creatures-api.opensea.io/api/box/';
 

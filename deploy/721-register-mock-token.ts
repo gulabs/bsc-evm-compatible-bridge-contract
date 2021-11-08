@@ -1,8 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { ethers } from "hardhat";
-import { registerMockERC721 } from './utils/agent';
-import { get721Agent, get721MockToken, set721Agent } from './utils/cache';
+import { registerMockERC721 } from './utils/721-agent';
+import { get721Agent, get721MockToken, set721Agent } from './utils/721-cache';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   if (!process.env.DST_CHAIN_ID) {
