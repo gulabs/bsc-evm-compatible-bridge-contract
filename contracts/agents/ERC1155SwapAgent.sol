@@ -172,7 +172,7 @@ contract ERC1155SwapAgent is
         // try forward swap
         if (registeredToken[dstChainId][tokenAddr]) {
             IERC1155 token = IERC1155(tokenAddr);
-            token.safeBatchTransferFrom(msg.sender, address(this), ids, amounts, "");
+            token.safeBatchTransferFrom(msg.sender, address(this), ids, amounts, "0x00");
 
             emit SwapStarted(
                 tokenAddr,
@@ -191,7 +191,7 @@ contract ERC1155SwapAgent is
         address dstTokenAddr = swapMappingOutgoing[dstChainId][tokenAddr];
         if (dstTokenAddr != address(0x0)) {
             IERC1155Mirrored mirroredToken = IERC1155Mirrored(tokenAddr);
-            mirroredToken.safeBatchTransferFrom(msg.sender, address(this), ids, amounts, "");
+            mirroredToken.safeBatchTransferFrom(msg.sender, address(this), ids, amounts, "0x00");
             mirroredToken.burnBatch(address(this), ids, amounts);
 
             emit BackwardSwapStarted(
@@ -228,7 +228,7 @@ contract ERC1155SwapAgent is
         ];
         if (mirroredTokenAddr != address(0x0)) {
             IERC1155Mirrored mirroredToken = IERC1155Mirrored(mirroredTokenAddr);
-            mirroredToken.mintBatch(recipient, ids, amounts, "");
+            mirroredToken.mintBatch(recipient, ids, amounts, "0x00");
 
             emit SwapFilled(
                 swapTxHash,
@@ -248,7 +248,7 @@ contract ERC1155SwapAgent is
         // and assign the value to fromTokenAddr
         if (registeredToken[fromChainId][fromTokenAddr]) {
             IERC1155 token = IERC1155(fromTokenAddr);
-            token.safeBatchTransferFrom(address(this), recipient, ids, amounts, "");
+            token.safeBatchTransferFrom(address(this), recipient, ids, amounts, "0x00");
 
             emit BackwardSwapFilled(
                 swapTxHash,

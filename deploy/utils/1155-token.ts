@@ -56,6 +56,6 @@ export const mintMockERC1155 = async (params: MintMockERC1155Params) => {
   const MockERC1155 = (await ethers.getContractFactory("MockERC1155", params.signers[0])) as MockERC1155__factory;
   const mockERC1155 = await MockERC1155.attach(params.tokenContractAddr);
 
-  await mockERC1155.mintBatch(params.to, params.ids, params.amounts, "");
+  await mockERC1155.mintBatch(params.to, params.ids, params.amounts, "0x00");
   console.log(`>> Minted MockERC1155 to ${params.to}`);
 }
