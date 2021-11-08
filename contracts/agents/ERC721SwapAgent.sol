@@ -4,6 +4,7 @@ pragma solidity ^0.8.2;
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165CheckerUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "../tokens/MirroredERC721.sol";
 import "../interfaces/IERC721Mirrored.sol";
@@ -13,32 +14,31 @@ contract ERC721SwapAgent is
     OwnableUpgradeable,
     ERC721HolderUpgradeable
 {
+    using ERC165CheckerUpgradeable for address;
+
+    // -- ERC721 INTERFACE ID --
+    bytes4 private constant _ERC_721_INTERFACE_ID = 0x80ac58cd;
+
     // -- Error Constants --
+    // ERC721SwapAgent::registerSwapPair:: token does not conform ERC721 standard
+    string private constant _ERR721_REGISTER_NOT_721 = "SA.721.1.1";
     // ERC721SwapAgent::registerSwapPair:: token is already registered
-    string private constant ERR721_REGISTER_TOKEN_EXISTS = "SA.721.1.1";
+    string private constant _ERR721_REGISTER_TOKEN_EXISTS = "SA.721.1.2";
     // ERC721SwapAgent::registerSwapPair:: empty token name
-    string private constant ERR721_REGISTER_EMPTY_TOKEN_NAME = "SA.721.1.2";
+    string private constant _ERR721_REGISTER_EMPTY_TOKEN_NAME = "SA.721.1.3";
     // ERC721SwapAgent::registerSwapPair:: empty token symbol
-    string private constant ERR721_REGISTER_EMPTY_TOKEN_SYMBOL = "SA.721.1.3";
+    string private constant _ERR721_REGISTER_EMPTY_TOKEN_SYMBOL = "SA.721.1.4";
 
     // ERC721SwapAgent::createSwapPair:: mirrored token is already deployed
-    string private constant ERR721_CREATE_MIRRORED_EXISTS = "SA.721.2.1";
+    string private constant _ERR721_CREATE_MIRRORED_EXISTS = "SA.721.2.1";
 
-    // ERC721SwapAgent::swap:: wrong ownership after transferfing
-    string private constant ERR721_FORWARD_SWAP_WRONG_OWNER = "SA.721.3.1";
-    // ERC721SwapAgent::swap:: wrong ownership after transferfing
-    string private constant ERR721_BACKWARD_SWAP_WRONG_OWNER = "SA.721.3.2";
     // ERC721SwapAgent::swap:: token has no swap pair
-    string private constant ERR721_SWAP_NO_PAIR = "SA.721.3.3";
+    string private constant _ERR721_SWAP_NO_PAIR = "SA.721.3.1";
 
     // ERC721SwapAgent::fill:: tx hash was already filled
-    string private constant ERR721_FILL_ALREADY_FILLED = "SA.721.4.1";
-    // ERC721SwapAgent::fill:: wrong ownership after minting for forward fill
-    string private constant ERR721_FORWARD_FILL_WRONG_OWNER = "SA.721.4.2";
-    // ERC721SwapAgent::fill:: wrong ownership after transferfing for backward fill
-    string private constant ERR721_BACKWARD_FILL_WRONG_OWNER = "SA.721.4.3";
+    string private constant _ERR721_FILL_ALREADY_FILLED = "SA.721.4.1";
     // ERC721SwapAgent::fill:: token has no swap pair
-    string private constant ERR721_FILL_NO_PAIR = "SA.721.4.4";
+    string private constant _ERR721_FILL_NO_PAIR = "SA.721.4.2";
 
     // -- Storage Variables --
     mapping(uint256 => mapping(address => bool)) public registeredToken;
@@ -115,7 +115,7 @@ contract ERC721SwapAgent is
     ) public onlyOwner {
         require(
             swapMappingIncoming[fromChainId][fromTokenAddr] == address(0x0),
-            ERR721_CREATE_MIRRORED_EXISTS
+            _ERR721_CREATE_MIRRORED_EXISTS
         );
 
         MirroredERC721 mirrored = new MirroredERC721();
@@ -143,8 +143,13 @@ contract ERC721SwapAgent is
         payable
     {
         require(
+          tokenAddr.supportsInterface(_ERC_721_INTERFACE_ID),
+          _ERR721_REGISTER_NOT_721
+        );
+
+        require(
             !registeredToken[chainId][tokenAddr],
-            ERR721_REGISTER_TOKEN_EXISTS
+            _ERR721_REGISTER_TOKEN_EXISTS
         );
 
         registeredToken[chainId][tokenAddr] = true;
@@ -152,8 +157,12 @@ contract ERC721SwapAgent is
         string memory name = meta.name();
         string memory symbol = meta.symbol();
 
-        require(bytes(name).length > 0, ERR721_REGISTER_EMPTY_TOKEN_NAME);
-        require(bytes(symbol).length > 0, ERR721_REGISTER_EMPTY_TOKEN_SYMBOL);
+        require(bytes(name).length > 0, _ERR721_REGISTER_EMPTY_TOKEN_NAME);
+        require(bytes(symbol).length > 0, _ERR721_REGISTER_EMPTY_TOKEN_SYMBOL);
+
+        if (msg.value != 0) {
+            payable(owner()).transfer(msg.value);
+        }
 
         emit SwapPairRegister(
             msg.sender,
@@ -171,15 +180,14 @@ contract ERC721SwapAgent is
         uint256 tokenId,
         uint256 dstChainId
     ) external payable {
+        if (msg.value != 0) {
+            payable(owner()).transfer(msg.value);
+        }
+
         // try forward swap
         if (registeredToken[dstChainId][tokenAddr]) {
             IERC721 token = IERC721(tokenAddr);
             token.safeTransferFrom(msg.sender, address(this), tokenId);
-
-            require(
-                token.ownerOf(tokenId) == address(this),
-                ERR721_FORWARD_SWAP_WRONG_OWNER
-            );
 
             emit SwapStarted(
                 tokenAddr,
@@ -197,13 +205,7 @@ contract ERC721SwapAgent is
         address dstTokenAddr = swapMappingOutgoing[dstChainId][tokenAddr];
         if (dstTokenAddr != address(0x0)) {
             IERC721Mirrored mirroredToken = IERC721Mirrored(tokenAddr);
-
             mirroredToken.safeTransferFrom(msg.sender, address(this), tokenId);
-            require(
-                mirroredToken.ownerOf(tokenId) == address(this),
-                ERR721_BACKWARD_SWAP_WRONG_OWNER
-            );
-
             mirroredToken.burn(tokenId);
 
             emit BackwardSwapStarted(
@@ -218,7 +220,7 @@ contract ERC721SwapAgent is
             return;
         }
 
-        revert(ERR721_SWAP_NO_PAIR);
+        revert(_ERR721_SWAP_NO_PAIR);
     }
 
     function fill(
@@ -229,7 +231,7 @@ contract ERC721SwapAgent is
         uint256 tokenId,
         string calldata tokenURI
     ) public onlyOwner {
-        require(!filledSwap[swapTxHash], ERR721_FILL_ALREADY_FILLED);
+        require(!filledSwap[swapTxHash], _ERR721_FILL_ALREADY_FILLED);
         filledSwap[swapTxHash] = true;
 
         // fill forward swap, it means our core server will find the related mirrored token
@@ -241,11 +243,6 @@ contract ERC721SwapAgent is
             IERC721Mirrored mirroredToken = IERC721Mirrored(mirroredTokenAddr);
             mirroredToken.safeMint(recipient, tokenId);
             mirroredToken.setTokenURI(tokenId, tokenURI);
-
-            require(
-                mirroredToken.ownerOf(tokenId) == recipient,
-                ERR721_FORWARD_FILL_WRONG_OWNER
-            );
 
             emit SwapFilled(
                 swapTxHash,
@@ -266,11 +263,6 @@ contract ERC721SwapAgent is
             IERC721 token = IERC721(fromTokenAddr);
             token.safeTransferFrom(address(this), recipient, tokenId);
 
-            require(
-                token.ownerOf(tokenId) == recipient,
-                ERR721_BACKWARD_FILL_WRONG_OWNER
-            );
-
             emit BackwardSwapFilled(
                 swapTxHash,
                 fromTokenAddr,
@@ -282,6 +274,6 @@ contract ERC721SwapAgent is
             return;
         }
 
-        revert(ERR721_FILL_NO_PAIR);
+        revert(_ERR721_FILL_NO_PAIR);
     }
 }
