@@ -48,10 +48,16 @@
     "bsctest:erc721-deploy-agent": "hardhat --network bsctest deploy --reset --tags ERC721SwapAgent",
     "bsctest:erc721-deploy-mock-token": "hardhat --network bsctest deploy --reset --tags ERC721SwapAgent",
     "bsctest:erc721-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network bsctest deploy --reset --tags ERC721MockToken",
+    "bsctest:erc1155-deploy-agent": "hardhat --network bsctest deploy --reset --tags ERC1155SwapAgent",
+    "bsctest:erc1155-deploy-mock-token": "hardhat --network bsctest deploy --reset --tags ERC1155SwapAgent",
+    "bsctest:erc1155-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network bsctest deploy --reset --tags ERC1155MockToken",
 
     "rinkeby:erc721-deploy-agent": "hardhat --network rinkeby deploy --reset --tags ERC721SwapAgent",
     "rinkeby:erc721-deploy-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC721SwapAgent",
-    "rinkeby:erc721-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network rinkeby deploy --reset --tags ERC721MockToken"
+    "rinkeby:erc721-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network rinkeby deploy --reset --tags ERC721MockToken",
+    "rinkeby:erc1155-deploy-agent": "hardhat --network rinkeby deploy --reset --tags ERC1155SwapAgent",
+    "rinkeby:erc1155-deploy-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC1155SwapAgent",
+    "rinkeby:erc1155-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network rinkeby deploy --reset --tags ERC1155MockToken"
   },
   "repository": {
     "type": "git",
