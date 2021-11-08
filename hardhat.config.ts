@@ -22,6 +22,16 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
+    chain1: {
+      chainId: 1000,
+      url: 'http://localhost:19545',
+      accounts: [process.env.LOCAL_PRIVATE_KEY_1 || '']
+    },
+    chain2: {
+      chainId: 2000,
+      url: 'http://localhost:19546',
+      accounts: [process.env.LOCAL_PRIVATE_KEY_1 || '']
+    },
     rinkeby: {
       chainId: 4,
       url: process.env.RINKEBY_URL || "",
