@@ -60,6 +60,7 @@ export const mintMockERC721 = async (params: MintMockERC721Params) => {
   const MockERC721 = (await ethers.getContractFactory("MockERC721", params.signers[0])) as MockERC721__factory;
   const mockERC721 = await MockERC721.attach(params.tokenContractAddr);
 
+  // TODO: need to check for block confirmation
   await mockERC721.safeMint(params.to, params.tokenId);
   console.log(`>> Minted MockERC721 to ${params.to}`);
 

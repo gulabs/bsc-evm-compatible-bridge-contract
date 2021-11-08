@@ -38,6 +38,12 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.RINKEBY_PRIVATE_KEY !== undefined ? [process.env.RINKEBY_PRIVATE_KEY] : [],
     },
+    mumbai: {
+      chainId: 8001,
+      url: process.env.RIMATIC_MUMBAI_URL|| "",
+      accounts:
+        process.env.MATIC_MUMBAI_PRIVATE_KEY !== undefined ? [process.env.MATIC_MUMBAI_PRIVATE_KEY] : [],
+    },
     bsctest: {
       chainId: 97,
       url: process.env.BSC_TEST_URL || "",

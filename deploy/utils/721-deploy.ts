@@ -3,7 +3,6 @@ import { MockERC721__factory, ERC721SwapAgent__factory, MockERC721, ERC721SwapAg
 import { Awaited } from '../../types/utils';
 
 type DeployMockERC721Params = {
-  agentAddr: string,
   baseUri: string,
   signers: Awaited<ReturnType<typeof ethers.getSigners>>,
 };
@@ -14,7 +13,6 @@ type DeployERC721AgentParams = {
 };
 
 export const deployMockERC721= async (params: DeployMockERC721Params): Promise<MockERC721 | MockERC721NoBaseURI> => {
-  if (!params.agentAddr) throw new Error("agentAddr is not defined");
   if (!params.signers.length) throw new Error("signers is not defined");
 
   if (params.baseUri) {
@@ -55,6 +53,8 @@ export const deployERC721Agent = async (params: DeployERC721AgentParams): Promis
   const agent = (await upgrades.deployProxy(ERC721SwapAgent)) as ERC721SwapAgent;
 
   console.log(">> ERC721SwapAgent is deployed!");
+
+  console.log(agent.address);
 
   return agent;
 } 

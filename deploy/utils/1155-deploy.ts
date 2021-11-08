@@ -41,6 +41,8 @@ export const deployERC1155Agent = async (params: DeployERC1155AgentParams): Prom
 
   console.log(">> ERC1155SwapAgent is deployed!");
 
+  console.log(agent.address);
+
   return agent;
 } 
 

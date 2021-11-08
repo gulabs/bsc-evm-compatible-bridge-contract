@@ -4,7 +4,7 @@ import { ethers } from "hardhat";
 import { deployMockERC1155 } from './utils/1155-deploy';
 import { get1155Agent, set1155MockToken } from './utils/1155-cache';
 
-const BASE_URI = 'https://game.example/api/item/{id}.json';
+const BASE_URI = process.env.ERC1151_MOCK_TOKEN_BASE_URL || '';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const signers = await ethers.getSigners();

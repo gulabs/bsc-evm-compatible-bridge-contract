@@ -46,18 +46,24 @@
     "chain2:erc1155-backward-swap": "DST_CHAIN_ID=1000 hardhat --network chain2 deploy --reset --tags ERC1155BackwardSwap",
 
     "bsctest:erc721-deploy-agent": "hardhat --network bsctest deploy --reset --tags ERC721SwapAgent",
-    "bsctest:erc721-deploy-mock-token": "hardhat --network bsctest deploy --reset --tags ERC721SwapAgent",
+    "bsctest:erc721-deploy-mock-token": "hardhat --network bsctest deploy --reset --tags ERC721MockToken",
     "bsctest:erc721-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network bsctest deploy --reset --tags ERC721MockToken",
+    "bsctest:erc721-mint-mock-token": "hardhat --network bsctest deploy --reset --tags ERC721MintMockToken",
     "bsctest:erc1155-deploy-agent": "hardhat --network bsctest deploy --reset --tags ERC1155SwapAgent",
-    "bsctest:erc1155-deploy-mock-token": "hardhat --network bsctest deploy --reset --tags ERC1155SwapAgent",
-    "bsctest:erc1155-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network bsctest deploy --reset --tags ERC1155MockToken",
+    "bsctest:erc1155-deploy-mock-token": "hardhat --network bsctest deploy --reset --tags ERC1155MockToken",
 
     "rinkeby:erc721-deploy-agent": "hardhat --network rinkeby deploy --reset --tags ERC721SwapAgent",
-    "rinkeby:erc721-deploy-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC721SwapAgent",
+    "rinkeby:erc721-deploy-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC721MockToken",
     "rinkeby:erc721-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network rinkeby deploy --reset --tags ERC721MockToken",
+    "rinkeby:erc721-mint-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC721MintMockToken",
     "rinkeby:erc1155-deploy-agent": "hardhat --network rinkeby deploy --reset --tags ERC1155SwapAgent",
-    "rinkeby:erc1155-deploy-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC1155SwapAgent",
-    "rinkeby:erc1155-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network rinkeby deploy --reset --tags ERC1155MockToken"
+    "rinkeby:erc1155-deploy-mock-token": "hardhat --network rinkeby deploy --reset --tags ERC1155MockToken",
+
+    "mumbai:erc721-deploy-agent": "hardhat --network mumbai deploy --reset --tags ERC721SwapAgent",
+    "mumbai:erc721-deploy-mock-token": "hardhat --network mumbai deploy --reset --tags ERC721MockToken",
+    "mumbai:erc721-deploy-mock-token-with-base-uri": "BASE_URI=true hardhat --network mumbai deploy --reset --tags ERC721MockToken",
+    "mumbai:erc1155-deploy-agent": "hardhat --network mumbai deploy --reset --tags ERC1155SwapAgent",
+    "mumbai:erc1155-deploy-mock-token": "hardhat --network mumbai deploy --reset --tags ERC1155MockToken"
   },
   "repository": {
     "type": "git",
