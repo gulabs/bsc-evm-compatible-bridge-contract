@@ -1,46 +1,47 @@
-# Advanced Sample Hardhat Project
+# bsc-evm-compatible-bridge-contract
+Core bridge for evm compatible chains which is based on https://github.com/binance-chain/bsc-eth-swap.
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+This project is part of Binance Smart Chain Hackathon : Build NFT Bridge Between EVM Compatible Chains hackathon [https://gitcoin.co/issue/binance-chain/grant-projects/2/100026811].
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
-
-Try running some of the following tasks:
-
+### Prepare configuration
+Please refer to example env file
 ```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
+$ cat .env.example > .env
 ```
 
-# Etherscan verification
-
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
-
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
-
+### Install Dependencies
 ```shell
-hardhat run --network ropsten scripts/sample-script.ts
+$ nvm use
+$ npm ci
 ```
 
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
-
+### Deploy local chains to test the contracts locally
+Need to have 3 terminals to run the scripts simultaneously
 ```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+$ npm run chain1
+```
+```shell
+$ npm run chain2
+```
+After 2 chains are running, deploy ERC721SwapAgent and ERC1155SwapAgent contracts
+```shell
+$ npm run chain1:erc721-deploy-agent
+$ npm run chain1:erc1155-deploy-agent
+$ npm run chain2:erc721-deploy-agent
+$ npm run chain2:erc1155-deploy-agent
+```
+There are other useful commands to deploy contracts, see them in the package.json
+
+### Deploy to Rinkeby and BSC Test
+```shell
+$ npm run bsctest:erc721-deploy-agent
+$ npm run bsctest:erc1155-deploy-agent
+$ npm run rinkeby:erc721-deploy-agent
+$ npm run rinkeby:erc1155-deploy-agent
 ```
 
-# Performance optimizations
+The addresses of the deployed contracts will be in the chains folder which has chain ids as subfolders.
 
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+## Specification
+
+Design spec: https://github.com/synycboom/bsc-evm-compatible-bridge
