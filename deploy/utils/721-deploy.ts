@@ -21,7 +21,6 @@ export const deployMockERC721= async (params: DeployMockERC721Params): Promise<M
     console.log(`>> Deploying MockERC721`);
 
     const mockERC721 = await MockERC721.deploy('Mock721', 'M721');
-
     console.log(">> MockERC721 is deployed!");
 
     await mockERC721.setBaseURI(params.baseUri);
@@ -50,7 +49,9 @@ export const deployERC721Agent = async (params: DeployERC721AgentParams): Promis
 
   console.log(`>> Deploying ERC721SwapAgent`);
 
-  const agent = (await upgrades.deployProxy(ERC721SwapAgent)) as ERC721SwapAgent;
+  const agent = (await upgrades.deployProxy(ERC721SwapAgent, [], { initializer: 'initialize' })) as ERC721SwapAgent;
+
+  await agent.deployed();
 
   console.log(">> ERC721SwapAgent is deployed!");
 

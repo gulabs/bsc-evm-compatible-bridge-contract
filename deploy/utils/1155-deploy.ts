@@ -37,7 +37,9 @@ export const deployERC1155Agent = async (params: DeployERC1155AgentParams): Prom
 
   console.log(`>> Deploying ERC1155SwapAgent`);
 
-  const agent = (await upgrades.deployProxy(ERC1155SwapAgent)) as ERC1155SwapAgent;
+  const agent = (await upgrades.deployProxy(ERC1155SwapAgent, [], { initializer: 'initialize' })) as ERC1155SwapAgent;
+
+  await agent.deployed();
 
   console.log(">> ERC1155SwapAgent is deployed!");
 

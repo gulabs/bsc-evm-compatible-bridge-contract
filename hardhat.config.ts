@@ -13,7 +13,7 @@ dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.4",
+    version: "0.8.2",
     settings: {
       optimizer: {
         enabled: true,
@@ -77,6 +77,7 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
+    // apiKey: process.env.BSCSCAN_API_KEY,
   },
 };
 
