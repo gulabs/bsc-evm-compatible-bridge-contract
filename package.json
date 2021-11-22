@@ -55,9 +55,13 @@
     "rinkeby:erc721-deploy-agent": "hardhat --network rinkeby deploy --no-compile --reset --tags ERC721SwapAgent",
     "rinkeby:erc1155-deploy-agent": "hardhat --network rinkeby deploy --no-compile --reset --tags ERC1155SwapAgent",
 
-    "mumbai:deploy-mock-factory": "hardhat --network mumbai deploy --reset --tags MockFactory",
-    "mumbai:erc721-deploy-agent": "hardhat --network mumbai deploy --reset --tags ERC721SwapAgent",
-    "mumbai:erc1155-deploy-agent": "hardhat --network mumbai deploy --reset --tags ERC1155SwapAgent"
+    "mumbai:deploy-mock-factory": "hardhat --network mumbai deploy --no-compile --reset --tags MockFactory",
+    "mumbai:erc721-deploy-agent": "hardhat --network mumbai deploy --no-compile --reset --tags ERC721SwapAgent",
+    "mumbai:erc1155-deploy-agent": "hardhat --network mumbai deploy --no-compile --reset --tags ERC1155SwapAgent",
+
+    "fantomtest:deploy-mock-factory": "hardhat --network fantomtest deploy --no-compile --reset --tags MockFactory",
+    "fantomtest:erc721-deploy-agent": "hardhat --network fantomtest deploy --no-compile --reset --tags ERC721SwapAgent",
+    "fantomtest:erc1155-deploy-agent": "hardhat --network fantomtest deploy --no-compile --reset --tags ERC1155SwapAgent"
   },
   "repository": {
     "type": "git",

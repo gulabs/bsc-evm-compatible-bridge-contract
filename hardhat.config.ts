@@ -39,10 +39,16 @@ const config: HardhatUserConfig = {
         process.env.RINKEBY_PRIVATE_KEY !== undefined ? [process.env.RINKEBY_PRIVATE_KEY] : [],
     },
     mumbai: {
-      chainId: 8001,
-      url: process.env.RIMATIC_MUMBAI_URL|| "",
+      chainId: 80001,
+      url: process.env.MATIC_MUMBAI_URL|| "",
       accounts:
         process.env.MATIC_MUMBAI_PRIVATE_KEY !== undefined ? [process.env.MATIC_MUMBAI_PRIVATE_KEY] : [],
+    },
+    fantomtest: {
+      chainId: 4002,
+      url: process.env.FANTOM_TEST_URL || "",
+      accounts:
+        process.env.FANTOM_TEST_PRIVATE_KEY !== undefined ? [process.env.FANTOM_TEST_PRIVATE_KEY] : [],
     },
     bsctest: {
       chainId: 97,
@@ -76,8 +82,10 @@ const config: HardhatUserConfig = {
     currency: "USD",
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    // apiKey: process.env.ETHERSCAN_API_KEY,
     // apiKey: process.env.BSCSCAN_API_KEY,
+    // apiKey: process.env.POLYGONSCAN_API_KEY,
+    apiKey: process.env.FANTOMSCAN_API_KEY,
   },
 };
 
